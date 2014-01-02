@@ -1,6 +1,7 @@
 <?php namespace Layla\Module\Models;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Str;
 
 class Resource extends Base {
 
@@ -51,6 +52,11 @@ class Resource extends Base {
 		return $this->belongsTo('Layla\Module\Models\Module');
 	}
 
+	public function getPluralNameAttribute()
+	{
+		return Str::plural($this->getAttribute('name'));
+	}
+
 	/**
 	 * Return default value when null
 	 *
@@ -58,8 +64,7 @@ class Resource extends Base {
 	 */
 	public function getControllerNamespaceAttribute($value)
 	{
-		dd(Config::get('module::default'));
-		return is_null($value) ? Config::get('module::default.namespace.controller') : $value;
+		return empty($value) ? Config::get('module::module.default.namespace.controller') : $value;
 	}
 
 	/**
@@ -69,7 +74,7 @@ class Resource extends Base {
 	 */
 	public function getResourceControllerNamespaceAttribute($value)
 	{
-		return is_null($value) ? Config::get('module::default.namespace.resource_controller') : $value;
+		return empty($value) ? Config::get('module::module.default.namespace.resource_controller') : $value;
 	}
 
 	/**
@@ -79,7 +84,7 @@ class Resource extends Base {
 	 */
 	public function getModelNamespaceAttribute($value)
 	{
-		return is_null($value) ? Config::get('module::default.namespace.model') : $value;
+		return empty($value) ? Config::get('module::module.default.namespace.model') : $value;
 	}
 
 	/**
@@ -89,7 +94,7 @@ class Resource extends Base {
 	 */
 	public function getSeedNamespaceAttribute($value)
 	{
-		return is_null($value) ? Config::get('module::default.namespace.seed') : $value;
+		return empty($value) ? Config::get('module::module.default.namespace.seed') : $value;
 	}
 
 	/**
@@ -99,7 +104,7 @@ class Resource extends Base {
 	 */
 	public function getValidatorNamespaceAttribute($value)
 	{
-		return is_null($value) ? Config::get('module::default.namespace.validator') : $value;
+		return empty($value) ? Config::get('module::module.default.namespace.validator') : $value;
 	}
 
 	/**
@@ -109,7 +114,7 @@ class Resource extends Base {
 	 */
 	public function getControllersPathAttribute($value)
 	{
-		return is_null($value) ? Config::get('module::default.path.controllers') : $value;
+		return empty($value) ? Config::get('module::module.default.path.controllers') : $value;
 	}
 
 	/**
@@ -119,7 +124,7 @@ class Resource extends Base {
 	 */
 	public function getResource_controllerPathAttribute($value)
 	{
-		return is_null($value) ? Config::get('module::default.path.resource_controller') : $value;
+		return empty($value) ? Config::get('module::module.default.path.resource_controller') : $value;
 	}
 
 	/**
@@ -129,7 +134,7 @@ class Resource extends Base {
 	 */
 	public function getModelsPathAttribute($value)
 	{
-		return is_null($value) ? Config::get('module::default.path.models') : $value;
+		return empty($value) ? Config::get('module::module.default.path.models') : $value;
 	}
 
 	/**
@@ -139,7 +144,7 @@ class Resource extends Base {
 	 */
 	public function getMigrationsPathAttribute($value)
 	{
-		return is_null($value) ? Config::get('module::default.path.migrations') : $value;
+		return empty($value) ? Config::get('module::module.default.path.migrations') : $value;
 	}
 
 	/**
@@ -149,7 +154,7 @@ class Resource extends Base {
 	 */
 	public function getSeedsPathAttribute($value)
 	{
-		return is_null($value) ? Config::get('module::default.path.seeds') : $value;
+		return empty($value) ? Config::get('module::module.default.path.seeds') : $value;
 	}
 
 	/**
@@ -159,7 +164,7 @@ class Resource extends Base {
 	 */
 	public function getValidatorPathAttribute($value)
 	{
-		return is_null($value) ? Config::get('module::default.path.validator') : $value;
+		return empty($value) ? Config::get('module::module.default.path.validator') : $value;
 	}
 
 	/**
@@ -179,7 +184,7 @@ class Resource extends Base {
 	 */
 	public function getRulesAttribute($value)
 	{
-		return json_decode($value);
+		return json_decode(empty($value) ? '[]' : $value);
 	}
 
 	/**
@@ -199,7 +204,7 @@ class Resource extends Base {
 	 */
 	public function getIndexRulesAttribute($value)
 	{
-		return json_decode($value);
+		return json_decode(empty($value) ? '[]' : $value);
 	}
 
 	/**
@@ -219,7 +224,7 @@ class Resource extends Base {
 	 */
 	public function getStoreRulesAttribute($value)
 	{
-		return json_decode($value);
+		return json_decode(empty($value) ? '[]' : $value);
 	}
 
 	/**
@@ -239,7 +244,7 @@ class Resource extends Base {
 	 */
 	public function getShowRulesAttribute($value)
 	{
-		return json_decode($value);
+		return json_decode(empty($value) ? '[]' : $value);
 	}
 
 	/**
@@ -259,7 +264,7 @@ class Resource extends Base {
 	 */
 	public function getUpdateRulesAttribute($value)
 	{
-		return json_decode($value);
+		return json_decode(empty($value) ? '[]' : $value);
 	}
 
 }
