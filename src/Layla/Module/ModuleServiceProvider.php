@@ -19,6 +19,7 @@ class ModuleServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->package('layla/module');
+		$this->registerRoutes();
 	}
 
 	/**
@@ -28,7 +29,7 @@ class ModuleServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->registerRoutes();
+		//
 	}
 
 	/**
