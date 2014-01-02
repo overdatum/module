@@ -11,7 +11,7 @@ return array(
 		),
 		'path' => array(
 			'controllers' => 'controllers',
-			'resource_controller' => 'controllers/api'
+			'resource_controller' => 'controllers/api',
 			'models' => null,
 			'migrations' => 'migrations',
 			'seeds' => 'seeds',
