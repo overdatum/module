@@ -9,7 +9,7 @@ class Column extends Base {
 	 */
 	protected $fillable = array(
 		'resource_id',
-		'column',
+		'name',
 		'type',
 		'size',
 		'default'

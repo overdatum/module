@@ -10,7 +10,7 @@ class Relation extends Base {
 	protected $fillable = array(
 		'resource_id',
 		'other_resource_id',
-		'type',
+		'type'
 	);
 
 	/**
@@ -28,9 +28,9 @@ class Relation extends Base {
 	 *
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
-	public function otherResource()
+	public function other()
 	{
-		return $this->hasOne('Layla\Module\Models\Resource', 'other_resource_id');
+		return $this->belongsTo('Layla\Module\Models\Resource', 'other_resource_id');
 	}
 
 }

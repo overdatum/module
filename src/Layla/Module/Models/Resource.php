@@ -57,13 +57,13 @@ class Resource extends Base {
 	}
 
 	/**
-	 * Relation with \Layla\Module\Models\Field
+	 * Relation with \Layla\Module\Models\Column
 	 *
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
 	 */
-	public function fields()
+	public function columns()
 	{
-		return $this->hasMany('Layla\Module\Models\Field');
+		return $this->hasMany('Layla\Module\Models\Column');
 	}
 
 	/**
