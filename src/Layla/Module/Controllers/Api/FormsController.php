@@ -1,6 +1,6 @@
 <?php namespace Layla\Module\Controllers\Api;
 
-use Layla\Module\Controllers\BaseController;
+use Layla\Module\Controllers\Api\BaseController;
 
 use Layla\Module\Models\Form;
 
