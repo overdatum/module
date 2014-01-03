@@ -42,6 +42,10 @@ class Resource extends Base {
 		'update_rules'
 	);
 
+	////////////////////////////////////////////////////////////////////
+	//////////////////////////// RELATIONS /////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Relation with \Layla\Module\Models\Module
 	 *
@@ -52,13 +56,52 @@ class Resource extends Base {
 		return $this->belongsTo('Layla\Module\Models\Module');
 	}
 
+	/**
+	 * Relation with \Layla\Module\Models\Field
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function fields()
+	{
+		return $this->hasMany('Layla\Module\Models\Field');
+	}
+
+	/**
+	 * Relation with \Layla\Module\Models\Form
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function forms()
+	{
+		return $this->hasMany('Layla\Module\Models\Form');
+	}
+
+	/**
+	 * Relation with \Layla\Module\Models\Relation
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function relations()
+	{
+		return $this->hasMany('Layla\Module\Models\Relation');
+	}
+
+	////////////////////////////////////////////////////////////////////
+	//////////////////////////// ACCESSORS /////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get plural name attribute
+	 *
+	 * @return string
+	 */
 	public function getPluralNameAttribute()
 	{
 		return Str::plural($this->getAttribute('name'));
 	}
 
 	/**
-	 * Return default value when null
+	 * Return default value when empty
 	 *
 	 * @return string
 	 */
@@ -68,7 +111,7 @@ class Resource extends Base {
 	}
 
 	/**
-	 * Return default value when null
+	 * Return default value when empty
 	 *
 	 * @return string
 	 */
@@ -78,7 +121,7 @@ class Resource extends Base {
 	}
 
 	/**
-	 * Return default value when null
+	 * Return default value when empty
 	 *
 	 * @return string
 	 */
@@ -88,7 +131,7 @@ class Resource extends Base {
 	}
 
 	/**
-	 * Return default value when null
+	 * Return default value when empty
 	 *
 	 * @return string
 	 */
@@ -98,7 +141,7 @@ class Resource extends Base {
 	}
 
 	/**
-	 * Return default value when null
+	 * Return default value when empty
 	 *
 	 * @return string
 	 */
@@ -108,7 +151,7 @@ class Resource extends Base {
 	}
 
 	/**
-	 * Return default value when null
+	 * Return default value when empty
 	 *
 	 * @return string
 	 */
@@ -118,7 +161,7 @@ class Resource extends Base {
 	}
 
 	/**
-	 * Return default value when null
+	 * Return default value when empty
 	 *
 	 * @return string
 	 */
@@ -128,7 +171,7 @@ class Resource extends Base {
 	}
 
 	/**
-	 * Return default value when null
+	 * Return default value when empty
 	 *
 	 * @return string
 	 */
@@ -138,7 +181,7 @@ class Resource extends Base {
 	}
 
 	/**
-	 * Return default value when null
+	 * Return default value when empty
 	 *
 	 * @return string
 	 */
@@ -148,7 +191,7 @@ class Resource extends Base {
 	}
 
 	/**
-	 * Return default value when null
+	 * Return default value when empty
 	 *
 	 * @return string
 	 */
@@ -158,7 +201,7 @@ class Resource extends Base {
 	}
 
 	/**
-	 * Return default value when null
+	 * Return default value when empty
 	 *
 	 * @return string
 	 */
