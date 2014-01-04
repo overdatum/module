@@ -1,0 +1,10 @@
+/**
+ * Relation with {{ $otherClass }}
+
+ *
+ * @return \Illuminate\Database\Eloquent\Relations\HasOne
+ */
+public function {{ $name }}()
+{
+	return $this->hasOne('{{ $otherClass }}');
+}

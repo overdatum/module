@@ -1,0 +1,20 @@
+<?php{{ $blueprint->getNamespace() }}
+
+@if($blueprint->hasUses())
+{{ $blueprint->getUses() }}
+
+@endif
+class {{ $blueprint->getModel() }} @if($blueprint->hasBaseModel())extends {{ $blueprint->getBaseModelClass() }} @endif{
+
+	/**
+	 * The attributes that are mass assignable.
+	 *
+	 * @var array
+	 */
+	protected $fillable = array({{ $blueprint->getFillable() }});
+
+@foreach($blueprint->getRelations() as $relation)
+	{{ $relation }}
+@endforeach
+
+}

@@ -1,0 +1,9 @@
+<?php{{ $blueprint->getNamespace() }}
+
+@if($blueprint->hasUses())
+{{ $blueprint->getUses() }}
+
+@endif
+class {{ $blueprint->getController() }} @if($blueprint->hasBaseController())extends {{ $blueprint->getBaseControllerClass() }} @endif{
+
+}

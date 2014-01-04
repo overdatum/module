@@ -1,0 +1,119 @@
+<?php{{ $blueprint->getNamespace() }}
+
+@if($blueprint->hasUses())
+{{ $blueprint->getUses() }}
+
+@endif
+class {{ $blueprint->getController() }} @if($blueprint->hasBaseController())extends {{ $blueprint->getBaseControllerClass() }} @endif{
+@if($blueprint->hasRules())
+
+	/**
+	 * Validation rules used for all actions
+	 *
+	 * @var array
+	 */
+	protected $rules = array({{ $blueprint->getRules() }});
+
+@endif
+@if($blueprint->hasIndexRules())
+
+	/**
+	 * Validation rules used when getting a list of resources
+	 *
+	 * @var array
+	 */
+	protected $indexRules = array({{ $blueprint->getIndexRules() }});
+
+@endif
+@if($blueprint->hasStoreRules())
+
+	/**
+	 * Validation rules used when storing a resource
+	 *
+	 * @var array
+	 */
+	protected $storeRules = array({{ $blueprint->getStoreRules() }});
+
+@endif
+@if($blueprint->hasShowRules())
+
+	/**
+	 * Validation rules used when getting a resource
+	 *
+	 * @var array
+	 */
+	protected $showRules = array({{ $blueprint->getShowRules() }});
+
+@endif
+@if($blueprint->hasUpdateRules())
+
+	/**
+	 * Validation rules used when updating a resource
+	 *
+	 * @var array
+	 */
+	protected $updateRules = array({{ $blueprint->getUpdateRules() }});
+
+@endif
+@if($blueprint->hasIndexValidator())
+
+	/**
+	 * Get the validator object for the index action
+	 *
+	 * @return \Illuminate\Support\Contracts\MessageProviderInterface
+	 */
+	protected function getIndexValidator($input)
+	{
+		$validator = {{ $blueprint->getIndexValidatorClass() }}::make($input);
+
+		return $validator;
+	}
+
+@endif
+@if($blueprint->hasStoreValidator())
+
+	/**
+	 * Get the validator object for the store action
+	 *
+	 * @return \Illuminate\Support\Contracts\MessageProviderInterface
+	 */
+	protected function getStoreValidator($input)
+	{
+		$validator = {{ $blueprint->getStoreValidatorClass() }}::make($input);
+
+		return $validator;
+	}
+
+@endif
+@if($blueprint->hasShowValidator())
+
+	/**
+	 * Get the validator object for the show action
+	 *
+	 * @return \Illuminate\Support\Contracts\MessageProviderInterface
+	 */
+	protected function getShowValidator($input)
+	{
+		$validator = {{ $blueprint->getShowValidatorClass() }}::make($input);
+
+		return $validator;
+	}
+
+@endif
+@if($blueprint->hasUpdateValidator())
+
+	/**
+	 * Get the validator object for the update action
+	 *
+	 * @return \Illuminate\Support\Contracts\MessageProviderInterface
+	 */
+	protected function getUpdateValidator($input)
+	{
+		$validator = {{ $blueprint->getUpdateValidatorClass() }}::make($input);
+
+		return $validator;
+	}
+
+@endif
+
+}
