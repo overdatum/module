@@ -29,7 +29,7 @@ class Column extends Base {
 	 */
 	public function previous()
 	{
-		return $this->hasOne('Layla\Module\Models\PreviousColumn', 'previous_version_id');
+		return $this->hasOne('Layla\Module\Models\Column', 'previous_version_id', 'id');
 	}
 
 	/**

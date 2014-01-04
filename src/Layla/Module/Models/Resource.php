@@ -61,11 +61,11 @@ class Resource extends Base {
 	/**
 	 * Relation with previous version of this resource
 	 *
-	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
 	 */
 	public function previous()
 	{
-		return $this->hasOne('Layla\Module\Models\PreviousResource', 'previous_version_id');
+		return $this->hasOne('Layla\Module\Models\Resource', 'id', 'previous_version_id');
 	}
 
 	/**
