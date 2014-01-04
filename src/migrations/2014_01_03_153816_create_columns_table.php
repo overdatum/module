@@ -20,6 +20,7 @@ class CreateColumnsTable extends Migration {
 			$table->string('type');
 			$table->integer('size');
 			$table->string('default');
+			$table->boolean('fillable');
 			$table->timestamps();
 		});
 	}

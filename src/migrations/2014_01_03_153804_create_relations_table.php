@@ -18,6 +18,7 @@ class CreateRelationsTable extends Migration {
 			$table->integer('resource_id');
 			$table->integer('other_resource_id');
 			$table->string('type');
+			$table->string('name');
 			$table->timestamps();
 		});
 	}

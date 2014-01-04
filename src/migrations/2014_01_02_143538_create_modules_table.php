@@ -17,6 +17,7 @@ class CreateModulesTable extends Migration {
 			$table->increments('id');
 			$table->string('vendor');
 			$table->string('name');
+			$table->string('package_dir');
 			$table->timestamps();
 		});
 	}
