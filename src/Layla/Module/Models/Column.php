@@ -8,17 +8,29 @@ class Column extends Base {
 	 * @var array
 	 */
 	protected $fillable = array(
+		'previous_version_id',
 		'resource_id',
 		'name',
 		'type',
 		'size',
+		'precision',
 		'default',
-		'fillable'
+		'fillable',
 	);
 
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////// RELATIONS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Relation with previous column
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 */
+	public function previous()
+	{
+		return $this->hasOne('Layla\Module\Models\PreviousColumn', 'previous_version_id');
+	}
 
 	/**
 	 * Relation with \Layla\Module\Models\Resource
@@ -34,10 +46,26 @@ class Column extends Base {
 	//////////////////////////// ACCESSORS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
 
-	// @todo deleteme
-	public function getFillableAttribute($value)
+	/**
+	 * Get the size as an integer
+	 *
+	 * @param  string $value
+	 * @return integer
+	 */
+	public function getSizeAttribute($value)
 	{
-		return is_null($value) ? true : $value;
+		return empty($value) ? null : (int) $value;
+	}
+
+	/**
+	 * Get the precision as an integer
+	 *
+	 * @param  string $value
+	 * @return integer
+	 */
+	public function getPrecisionAttribute($value)
+	{
+		return empty($value) ? null : (int) $value;
 	}
 
 }

@@ -11,6 +11,7 @@ class Resource extends Base {
 	 * @var array
 	 */
 	protected $fillable = array(
+		'previous_version_id',
 		'module_id',
 		'extends',
 
@@ -38,7 +39,7 @@ class Resource extends Base {
 		'models_path',
 		'migrations_path',
 		'seeds_path',
-		'validator_path',
+		'validators_path',
 
 		'validator',
 		'index_validator',
@@ -56,6 +57,16 @@ class Resource extends Base {
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////// RELATIONS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Relation with previous version of this resource
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 */
+	public function previous()
+	{
+		return $this->hasOne('Layla\Module\Models\PreviousResource', 'previous_version_id');
+	}
 
 	/**
 	 * Relation with \Layla\Module\Models\Module
@@ -126,9 +137,64 @@ class Resource extends Base {
 		return Str::plural($this->getAttribute('name'));
 	}
 
+	/**
+	 * Return default value when empty
+	 *
+	 * @return string
+	 */
+	public function getControllersBaseAttribute($value)
+	{
+		return empty($value) ? Config::get('module::module.default.base.controllers') : $value;
+	}
+
+	/**
+	 * Return default value when empty
+	 *
+	 * @return string
+	 */
+	public function getResourceControllersBaseAttribute($value)
+	{
+		return empty($value) ? Config::get('module::module.default.base.resource_controllers') : $value;
+	}
+
+	/**
+	 * Return default value when empty
+	 *
+	 * @return string
+	 */
 	public function getModelsBaseAttribute($value)
 	{
 		return empty($value) ? Config::get('module::module.default.base.models') : $value;
+	}
+
+	/**
+	 * Return default value when empty
+	 *
+	 * @return string
+	 */
+	public function getMigrationsBaseAttribute($value)
+	{
+		return empty($value) ? Config::get('module::module.default.base.migrations') : $value;
+	}
+
+	/**
+	 * Return default value when empty
+	 *
+	 * @return string
+	 */
+	public function getSeedsBaseAttribute($value)
+	{
+		return empty($value) ? Config::get('module::module.default.base.seeds') : $value;
+	}
+
+	/**
+	 * Return default value when empty
+	 *
+	 * @return string
+	 */
+	public function getValidationBaseAttribute($value)
+	{
+		return empty($value) ? Config::get('module::module.default.base.validation') : $value;
 	}
 
 	/**
@@ -196,7 +262,7 @@ class Resource extends Base {
 	 *
 	 * @return string
 	 */
-	public function getResourceControllerPathAttribute($value)
+	public function getResourceControllersPathAttribute($value)
 	{
 		return empty($value) ? Config::get('module::module.default.path.resource_controllers') : $value;
 	}
@@ -236,9 +302,9 @@ class Resource extends Base {
 	 *
 	 * @return string
 	 */
-	public function getValidatorPathAttribute($value)
+	public function getValidatorsPathAttribute($value)
 	{
-		return empty($value) ? Config::get('module::module.default.path.validator') : $value;
+		return empty($value) ? Config::get('module::module.default.path.validators') : $value;
 	}
 
 	/**

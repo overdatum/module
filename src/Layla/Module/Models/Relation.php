@@ -11,12 +11,18 @@ class Relation extends Base {
 		'resource_id',
 		'other_resource_id',
 		'type',
-		'name'
+		'name',
+		'morph_key'
 	);
 
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////// RELATIONS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	public function parentResources()
+	{
+		return $this->hasMany('Layla\Module\Models\Resource', 'id', 'other_resource_id');
+	}
 
 	/**
 	 * Relation with \Layla\Module\Models\Resource
