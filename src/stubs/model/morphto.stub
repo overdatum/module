@@ -1,0 +1,9 @@
+/**
+ * Relation with other models
+ *
+ * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+ */
+public function {{ $name }}()
+{
+	return $this->morphTo();
+}

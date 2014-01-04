@@ -1,0 +1,6 @@
+Schema::table('{{ $table }}', function($table)
+{
+@foreach($columns as $column)
+	{{ $column }}
+@endforeach
+});

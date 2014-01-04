@@ -1,0 +1,10 @@
+/**
+ * Relation with {{ $otherClass }}
+
+ *
+ * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+ */
+public function {{ $name }}()
+{
+	return $this->belongsTo('{{ $otherClass }}');
+}

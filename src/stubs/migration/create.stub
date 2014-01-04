@@ -1,0 +1,6 @@
+Schema::create('{{ $table }}', function($table)
+{
+@foreach($columns as $column)
+	{{ $column }}
+@endforeach
+});
