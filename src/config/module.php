@@ -7,8 +7,8 @@ return array(
 
 		// The base class to extend when none is specified on the resource
 		'base' => array(
-			'controllers_base' => Config::get('app.aliases.Controller'),
-			'resource_controllers_base' => Config::get('app.aliases.Controller'),
+			'controllers' => Config::get('app.aliases.Controller'),
+			'resource_controllers' => Config::get('app.aliases.Controller'),
 			'models' => Config::get('app.aliases.Eloquent'),
 			'migrations' => 'Illuminate\Database\Migrations\Migration',
 			'seeds' => Config::get('app.aliases.Seeder'),
@@ -28,10 +28,10 @@ return array(
 		'path' => array(
 			'controllers' => 'controllers',
 			'resource_controllers' => 'controllers/api',
-			'models' => null,
+			'models' => 'models',
 			'migrations' => 'migrations',
 			'seeds' => 'seeds',
-			'validator' => null,
+			'validators' => 'validators',
 		)
 
 	)
