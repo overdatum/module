@@ -9,7 +9,8 @@ class Module extends Base {
 	 */
 	protected $fillable = array(
 		'vendor',
-		'name'
+		'name',
+		'package_dir'
 	);
 
 	////////////////////////////////////////////////////////////////////
@@ -40,6 +41,15 @@ class Module extends Base {
 			'resources.forms.fields',
 			'resources.relations.other',
 		));
+	}
+
+	////////////////////////////////////////////////////////////////////
+	//////////////////////////// ACCESSORS /////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	public function getPackagePathAttribute($value)
+	{
+		return empty($value) ? 'workbench' : $value;
 	}
 
 }

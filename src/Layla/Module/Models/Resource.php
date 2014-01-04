@@ -14,16 +14,27 @@ class Resource extends Base {
 		'module_id',
 		'extends',
 
+		'include_package_namespace',
+
 		'name',
 		'plural_name',
 		'description',
 
+		'controllers_base',
+		'resource_controllers_base',
+		'models_base',
+		'migrations_base',
+		'seeds_base',
+		'validator_base',
+
 		'controller_namespace',
+		'resource_controller_namespace',
 		'model_namespace',
 		'seed_namespace',
 		'validator_namespace',
 
 		'controllers_path',
+		'resource_controllers_path',
 		'models_path',
 		'migrations_path',
 		'seeds_path',
@@ -87,6 +98,21 @@ class Resource extends Base {
 	}
 
 	////////////////////////////////////////////////////////////////////
+	//////////////////////// PUBLIC INTERFACE //////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	public function getNamespaceFor($type)
+	{
+		$segments = array(
+			$this->module->vendor,
+			$this->module->name,
+			$this->{$type.'_namespace'}
+		);
+
+		return implode('\\', $segments);
+	}
+
+	////////////////////////////////////////////////////////////////////
 	//////////////////////////// ACCESSORS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
 
@@ -98,6 +124,11 @@ class Resource extends Base {
 	public function getPluralNameAttribute()
 	{
 		return Str::plural($this->getAttribute('name'));
+	}
+
+	public function getModelsBaseAttribute($value)
+	{
+		return empty($value) ? Config::get('module::module.default.base.models') : $value;
 	}
 
 	/**
@@ -165,9 +196,9 @@ class Resource extends Base {
 	 *
 	 * @return string
 	 */
-	public function getResource_controllerPathAttribute($value)
+	public function getResourceControllerPathAttribute($value)
 	{
-		return empty($value) ? Config::get('module::module.default.path.resource_controller') : $value;
+		return empty($value) ? Config::get('module::module.default.path.resource_controllers') : $value;
 	}
 
 	/**
@@ -227,7 +258,7 @@ class Resource extends Base {
 	 */
 	public function getRulesAttribute($value)
 	{
-		return json_decode(empty($value) ? '[]' : $value);
+		return json_decode(empty($value) ? '[]' : $value, true);
 	}
 
 	/**
@@ -247,7 +278,7 @@ class Resource extends Base {
 	 */
 	public function getIndexRulesAttribute($value)
 	{
-		return json_decode(empty($value) ? '[]' : $value);
+		return json_decode(empty($value) ? '[]' : $value, true);
 	}
 
 	/**
@@ -267,7 +298,7 @@ class Resource extends Base {
 	 */
 	public function getStoreRulesAttribute($value)
 	{
-		return json_decode(empty($value) ? '[]' : $value);
+		return json_decode(empty($value) ? '[]' : $value, true);
 	}
 
 	/**
@@ -287,7 +318,7 @@ class Resource extends Base {
 	 */
 	public function getShowRulesAttribute($value)
 	{
-		return json_decode(empty($value) ? '[]' : $value);
+		return json_decode(empty($value) ? '[]' : $value, true);
 	}
 
 	/**
@@ -307,7 +338,13 @@ class Resource extends Base {
 	 */
 	public function getUpdateRulesAttribute($value)
 	{
-		return json_decode(empty($value) ? '[]' : $value);
+		return json_decode(empty($value) ? '[]' : $value, true);
+	}
+
+	// @deleteme
+	public function getIncludePackageNamespaceAttribute($value)
+	{
+		return true;
 	}
 
 }
