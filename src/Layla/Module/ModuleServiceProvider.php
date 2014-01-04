@@ -20,6 +20,7 @@ class ModuleServiceProvider extends ServiceProvider {
 	{
 		$this->package('layla/module');
 		$this->registerRoutes();
+		$this->registerHelpers();
 	}
 
 	/**
@@ -48,6 +49,16 @@ class ModuleServiceProvider extends ServiceProvider {
 		$route->resource('api/forms', 'Layla\Module\Controllers\Api\FormsController');
 		$route->resource('api/relations', 'Layla\Module\Controllers\Api\RelationsController');
 		$route->resource('api/tabs', 'Layla\Module\Controllers\Api\TabsController');
+	}
+
+	/**
+	 * Register the helpers.
+	 *
+	 * @return void
+	 */
+	public function registerHelpers()
+	{
+		require __DIR__.'/../../helpers.php';
 	}
 
 	/**
