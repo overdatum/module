@@ -44,7 +44,21 @@ class Module extends Base {
 	public function scopeForUp($query)
 	{
 		return $query->with(array(
+			'resources' => function($query)
+			{
+				$query
+					->select('resources.*')
+					->join('resources as older_resources', 'resources.previous_version_id', '=', 'older_resources.id')
+					->where('resources.id', '>', 'older_resources.id');
+			},
 			'resources.previous',
+			'resources.columns' => function($query)
+			{
+				$query
+					->select('columns.*')
+					->join('columns as older_columns', 'columns.previous_version_id', '=', 'older_columns.id')
+					->where('columns.id', '>', 'older_columns.id');
+			},
 			'resources.columns.previous',
 			'resources.forms.tabs.fields',
 			'resources.forms.fields',
