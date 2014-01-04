@@ -16,9 +16,10 @@ class CreateRelationsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('resource_id');
-			$table->integer('other_resource_id');
+			$table->integer('other_resource_id')->nullable();
 			$table->string('type');
 			$table->string('name');
+			$table->string('morph_key')->nullable();
 			$table->timestamps();
 		});
 	}

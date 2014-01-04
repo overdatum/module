@@ -16,14 +16,14 @@ class CreateFieldsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('column_id');
-			$table->integer('form_id');
-			$table->integer('tab_id');
+			$table->integer('form_id')->nullable();
+			$table->integer('tab_id')->nullable();
 			$table->string('type');
-			$table->string('placeholder');
+			$table->string('placeholder')->nullable();
 			$table->string('data_key');
-			$table->text('meta');
-			$table->boolean('autocomplete');
-			$table->boolean('multiple');
+			$table->text('meta')->nullable();
+			$table->boolean('autocomplete')->nullable();
+			$table->boolean('multiple')->nullable();
 			$table->timestamps();
 		});
 	}

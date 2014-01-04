@@ -15,45 +15,47 @@ class CreateResourcesTable extends Migration {
 		Schema::create('resources', function(Blueprint $table)
 		{
 			$table->increments('id');
+			$table->integer('previous_version_id')->nullable();
 			$table->integer('module_id');
-			$table->string('extends');
+			$table->string('extends')->nullable();
 
 			$table->boolean('include_package_namespace');
 
 			$table->string('name');
-			$table->string('plural_name');
-			$table->string('description');
+			$table->string('plural_name')->nullable();
+			$table->string('description')->nullable();
 
-			$table->string('controllers_base');
-			$table->string('resource_controllers_base');
-			$table->string('models_base');
-			$table->string('migrations_base');
-			$table->string('seeds_base');
-			$table->string('validator_base');
+			$table->string('controllers_base')->nullable();
+			$table->string('resource_controllers_base')->nullable();
+			$table->string('models_base')->nullable();
+			$table->string('migrations_base')->nullable();
+			$table->string('seeds_base')->nullable();
+			$table->string('validator_base')->nullable();
 
-			$table->string('controller_namespace');
-			$table->string('resource_controller_namespace');
-			$table->string('model_namespace');
-			$table->string('seed_namespace');
-			$table->string('validator_namespace');
+			$table->string('controller_namespace')->nullable();
+			$table->string('resource_controller_namespace')->nullable();
+			$table->string('model_namespace')->nullable();
+			$table->string('seed_namespace')->nullable();
+			$table->string('validator_namespace')->nullable();
 
-			$table->string('controller_path');
-			$table->string('models_path');
-			$table->string('migrations_path');
-			$table->string('seeds_path');
-			$table->string('validator_path');
+			$table->string('controllers_path')->nullable();
+			$table->string('resource_controllers_path')->nullable();
+			$table->string('models_path')->nullable();
+			$table->string('migrations_path')->nullable();
+			$table->string('seeds_path')->nullable();
+			$table->string('validators_path')->nullable();
 
-			$table->string('validator');
-			$table->string('index_validator');
-			$table->string('store_validator');
-			$table->string('show_validator');
-			$table->string('update_validator');
+			$table->string('validator')->nullable();
+			$table->string('index_validator')->nullable();
+			$table->string('store_validator')->nullable();
+			$table->string('show_validator')->nullable();
+			$table->string('update_validator')->nullable();
 
-			$table->text('rules');
-			$table->text('index_rules');
-			$table->text('store_rules');
-			$table->text('show_rules');
-			$table->text('update_rules');
+			$table->text('rules')->nullable();
+			$table->text('index_rules')->nullable();
+			$table->text('store_rules')->nullable();
+			$table->text('show_rules')->nullable();
+			$table->text('update_rules')->nullable();
 
 			$table->timestamps();
 		});

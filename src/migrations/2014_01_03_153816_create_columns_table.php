@@ -15,11 +15,13 @@ class CreateColumnsTable extends Migration {
 		Schema::create('columns', function(Blueprint $table)
 		{
 			$table->increments('id');
+			$table->integer('previous_version_id')->nullable();
 			$table->integer('resource_id');
-			$table->string('name');
+			$table->string('name')->nullable();
 			$table->string('type');
-			$table->integer('size');
-			$table->string('default');
+			$table->integer('size')->nullable();
+			$table->integer('precision')->nullable();
+			$table->string('default')->nullable();
 			$table->boolean('fillable');
 			$table->timestamps();
 		});
