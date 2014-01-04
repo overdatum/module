@@ -19,7 +19,7 @@ class ResourceControllerBlueprint extends ControllerBlueprint {
 	 */
 	public function hasRules()
 	{
-		return ! empty($this->resource->rules);
+		return ! $this->hasValidator() && ! empty($this->resource->rules);
 	}
 
 	/**
@@ -39,7 +39,7 @@ class ResourceControllerBlueprint extends ControllerBlueprint {
 	 */
 	public function hasIndexRules()
 	{
-		return ! empty($this->resource->index_rules);
+		return ! $this->hasIndexValidator() && ! empty($this->resource->index_rules);
 	}
 
 	/**
@@ -59,7 +59,7 @@ class ResourceControllerBlueprint extends ControllerBlueprint {
 	 */
 	public function hasStoreRules()
 	{
-		return ! empty($this->resource->store_rules);
+		return ! $this->hasStoreValidator() && ! empty($this->resource->store_rules);
 	}
 
 	/**
@@ -79,7 +79,7 @@ class ResourceControllerBlueprint extends ControllerBlueprint {
 	 */
 	public function hasShowRules()
 	{
-		return ! empty($this->resource->show_rules);
+		return ! $this->hasShowValidator() && ! empty($this->resource->show_rules);
 	}
 
 	/**
@@ -99,7 +99,7 @@ class ResourceControllerBlueprint extends ControllerBlueprint {
 	 */
 	public function hasUpdateRules()
 	{
-		return ! empty($this->resource->update_rules);
+		return ! $this->hasUpdateValidator() && ! empty($this->resource->update_rules);
 	}
 
 	/**
