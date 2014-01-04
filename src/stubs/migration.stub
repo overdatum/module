@@ -1,0 +1,35 @@
+<?php{{ $blueprint->getNamespace() }}
+
+@if($blueprint->hasUses())
+{{ $blueprint->getUses() }}
+
+@endif
+class {{ $blueprint->getMigration() }} extends {{ $blueprint->getBaseMigrationClass() }} {
+
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+@foreach($blueprint->getUpActions() as $action)
+		{{ $action }}
+@endforeach
+
+	}
+
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+@foreach($blueprint->getDownActions() as $action)
+		{{ $action }}
+@endforeach
+
+	}
+
+}
