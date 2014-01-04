@@ -1,7 +1,21 @@
 <?php
 
 return array(
+
+	// Fallback properties to use for the Resource model
 	'default' => array(
+
+		// The base class to extend when none is specified on the resource
+		'base' => array(
+			'controllers_base' => Config::get('app.aliases.Controller'),
+			'resource_controllers_base' => Config::get('app.aliases.Controller'),
+			'models' => Config::get('app.aliases.Eloquent'),
+			'migrations' => 'Illuminate\Database\Migrations\Migration',
+			'seeds' => Config::get('app.aliases.Seeder'),
+			'validator' => Config::get('app.aliases.Validator')
+		),
+
+		// The namespace to use when none is specified on the resource
 		'namespace' => array(
 			'controller' => null,
 			'resource_controller' => null,
@@ -9,13 +23,17 @@ return array(
 			'seed' => null,
 			'validator' => 'Validators',
 		),
+
+		// The path to use when none is specified on the resource
 		'path' => array(
 			'controllers' => 'controllers',
-			'resource_controller' => 'controllers/api',
+			'resource_controllers' => 'controllers/api',
 			'models' => null,
 			'migrations' => 'migrations',
 			'seeds' => 'seeds',
 			'validator' => null,
 		)
+
 	)
+
 );
