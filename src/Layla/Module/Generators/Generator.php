@@ -16,7 +16,7 @@ class Generator {
 	 *
 	 * @var string
 	 */
-	protected $stub
+	protected $stub;
 
 	/**
 	 * Create a new Generator instance
@@ -35,7 +35,7 @@ class Generator {
 	 */
 	public function generate()
 	{
-		$result = $this->compile();
+		$result = $this->generateString();
 
 		$destination = $this->blueprint->getDestination();
 		$pathInfo = pathinfo($destination);
@@ -61,7 +61,7 @@ class Generator {
 
 		$data = array_merge($data, compact('blueprint', 'destination'));
 
-		return eval_blade(__DIR__.'/../../../stubs/'.$this->stub, $data);
+		return eval_blade(layla_module_stubs_path().$this->stub, $data);
 	}
 
 }
