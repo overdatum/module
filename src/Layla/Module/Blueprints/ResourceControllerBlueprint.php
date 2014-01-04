@@ -3,6 +3,16 @@
 class ResourceControllerBlueprint extends ControllerBlueprint {
 
 	/**
+	 * Get the namespace
+	 *
+	 * @return string
+	 */
+	public function getNamespace()
+	{
+		return $this->compileNamespace($this->resource->getNamespaceFor('resource_controller'));
+	}
+
+	/**
 	 * Checks if the controller has rules
 	 *
 	 * @return boolean
@@ -284,6 +294,20 @@ class ResourceControllerBlueprint extends ControllerBlueprint {
 		}
 
 		return $this->compileUses($uses);
+	}
+
+	/**
+	 * Get file the destination for the controller
+	 *
+	 * @return string
+	 */
+	public function getDestination()
+	{
+		$path = $this->resource->resource_controllers_path;
+		$namespace = $this->resource->resource_controller_namespace;
+		$fileName = $this->resource->plural_name.'Controller.php';
+
+		return $this->compileDestination($path, $namespace, $fileName);
 	}
 
 }
