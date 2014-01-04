@@ -106,7 +106,7 @@ class MigrationBlueprint extends Blueprint {
 	 */
 	public function getMigration()
 	{
-		$class = strtolower(ucfirst($this->resource->plural_name));
+		$class = ucfirst($this->getPluralTableForResource($this->resource));
 
 		return ucfirst($this->action).$class.'Table';
 	}
@@ -115,7 +115,7 @@ class MigrationBlueprint extends Blueprint {
 	{
 		$class = strtolower($this->resource->plural_name);
 
-		return ($this->action == 'create_table' ? 'create' : 'update').'_'.$class.'_table';
+		return $this->action.'_'.$class.'_table';
 	}
 
 	/**
@@ -197,6 +197,11 @@ class MigrationBlueprint extends Blueprint {
 			(empty($column->default) ? '' : "->default('".$column->default."')").";\n";
 	}
 
+	protected function compileDropColumn($column)
+	{
+		return "\$table->dropColumn('".$column->name."');\n";
+	}
+
 	public function getPreviousIdOfColumnByResource($resource, $name)
 	{
 		$previousVersionId = null;
@@ -239,24 +244,13 @@ class MigrationBlueprint extends Blueprint {
 					break;
 
 				case 'morphto':
-					$name = strtolower($relation->name).'_type';
+					$name = strtolower($relation->name);
 					$previousVersionId = $this->getPreviousIdOfColumnByResource($resource, $name);
 					$columns[$name] = new Column(array(
 						'relationtype' => $relation->type,
 						'previous_version_id' => $previousVersionId,
 						'name' => $name,
-						'type' => 'string',
-						'size' => null,
-						'default' => null
-					));
-
-					$name = strtolower($relation->name).'_id';
-					$previousVersionId = $this->getPreviousIdOfColumnByResource($resource, $name);
-					$columns[$name] = new Column(array(
-						'relationtype' => $relation->type,
-						'previous_version_id' => $previousVersionId,
-						'name' => $name,
-						'type' => 'integer',
+						'type' => 'morphs',
 						'size' => null,
 						'default' => null
 					));
@@ -333,7 +327,7 @@ class MigrationBlueprint extends Blueprint {
 		return $columns;
 	}
 
-	public function compileCreateColumns($columns)
+	public function compileColumns($columns)
 	{
 		$compiled = array();
 		foreach($columns as $column)
@@ -344,9 +338,22 @@ class MigrationBlueprint extends Blueprint {
 		return $compiled;
 	}
 
+	public function compileDropColumns($columns)
+	{
+		$compiled = array();
+		foreach($columns as $column)
+		{
+			if(is_null($column->name)) continue;
+
+			$compiled[] = $this->compileDropColumn($column);
+		}
+
+		return $compiled;
+	}
+
 	public function compileRenameColumnAction($oldColumn, $newColumn)
 	{
-		return "\$table->renameColumn('".$oldColumn."', '".$newColumn."');";
+		return "\$table->renameColumn('".$oldColumn."', '".$newColumn."');\n";
 	}
 
 	/**
@@ -405,29 +412,35 @@ class MigrationBlueprint extends Blueprint {
 	protected function setupActions()
 	{
 		// check if we need to migrate to another resource, or create a new one
-		if($this->isDirty)
+		if( ! $this->isDirty)
 		{
-			$this->action = 'create_table';
+			$this->action = 'create';
 
-			$columns = $this->compileCreateColumns($this->getColumnsForResource($this->resource));
+			$columns = $this->compileColumns($this->getColumnsForResource($this->resource));
 
-			$this->actions['up'][] = $this->compileCreateTableAction($this->resource, $columns);
-			$this->actions['down'][] = $this->compileDropTableAction($this->resource);
+			$columns = $this->compileCreateTableAction($this->resource, $columns);
+			$this->actions['up'][] = $this->compileAlterTableAction($newResource, $columns);
+
+			$columns = $this->compileDropTableAction($this->resource);
+			$this->actions['down'][] = $this->compileAlterTableAction($newResource, $columns);
 		}
 		else
 		{
-			$this->action = 'alter_table';
+			$this->action = 'alter';
 
 			$newResource = $this->resource;
 			$oldResource = $newResource->previous;
+
+			$upColumns = array();
+			$downColumns = array();
 
 			// check if the table was renamed
 			$oldTable = $this->getTableForResource($oldResource);
 			$newTable = $this->getTableForResource($newResource);
 			if($oldTable !== $newTable)
 			{
-				$this->actions['up'][] = $this->compileRenameAction($oldTable, $newTable);
-				$this->actions['down'][] = $this->compileRenameAction($newTable, $oldTable);
+				$upColumns = array_merge($upColumns, $this->compileRenameAction($oldTable, $newTable));
+				$downColumns = array_merge($downColumns, $this->compileRenameAction($newTable, $oldTable));
 			}
 
 			// check if columns were modified
@@ -437,20 +450,16 @@ class MigrationBlueprint extends Blueprint {
 			{
 				$oldColumn = $newColumn->previous;
 
-				$isRelation = isset($newColumn->is_relation);
-
 				// check if the column is new
 				if(is_null($oldColumn))
 				{
 					// the column is brand new
 
 					// let's add it
-					$columns = $this->compileCreateColumns(array($newColumn));
-					$this->actions['up'][] = $this->compileAlterTableAction($newResource, $columns);
+					$upColumns = array_merge($upColumns, $this->compileColumns(array($newColumn)));
 
 					// and remove it when rolling back
-					$columns = $this->compileDeleteColumns(array($newColumn));
-					$this->actions['down'][] = $this->compileAlterTableAction($newResource, $columns);
+					$downColumns = array_merge($downColumns, $this->compileDropColumns(array($newColumn)));
 				}
 				else
 				{
@@ -460,10 +469,10 @@ class MigrationBlueprint extends Blueprint {
 					if($newColumn->name !== $oldColumn->name)
 					{
 						$columns = array($this->compileRenameColumnAction($oldColumn->name, $newColumn->name));
-						$this->actions['up'][] = $this->compileAlterTableAction($newResource, $columns);
+						$upColumns = array_merge($upColumns, $columns);
 
 						$columns = array($this->compileRenameColumnAction($newColumn->name, $oldColumn->name));
-						$this->actions['down'][] = $this->compileAlterTableAction($newResource, $columns);
+						$downColumns = array_merge($downColumns, $columns);
 					}
 
 					// check if something else has changed
@@ -473,11 +482,11 @@ class MigrationBlueprint extends Blueprint {
 						$oldColumn->default !== $newColumn->default
 					)
 					{
-						$columns = $this->compileCreateColumns(array($newColumn));
-						$this->actions['up'][] = $this->compileAlterTableAction($newResource, $columns);
+						$columns = $this->compileColumns(array($newColumn));
+						$upColumns = array_merge($upColumns, $columns);
 
-						$columns = $this->compileCreateColumns(array($newColumn));
-						$this->actions['down'][] = $this->compileAlterTableAction($newResource, $columns);
+						$columns = $this->compileColumns(array($newColumn));
+						$downColumns = array_merge($downColumns, $columns);
 					}
 				}
 			}
@@ -492,13 +501,16 @@ class MigrationBlueprint extends Blueprint {
 				if(is_null($newColumn))
 				{
 					// bye bye
-					$columns = $this->compileDeleteColumns(array($oldColumn));
-					$this->actions['up'][] = $this->compileAlterTableAction($newResource, $columns);
+					$columns = $this->compileDropColumns(array($oldColumn));
+					$upColumns = array_merge($upColumns, $columns);
 
-					$columns = $this->compileCreateColumns(array($oldColumn));
-					$this->actions['down'][] = $this->compileAlterTableAction($newResource, $columns);
+					$columns = $this->compileColumns(array($oldColumn));
+					$downColumns = array_merge($downColumns, $columns);
 				}
 			}
+
+			$this->actions['up'][] = $this->compileAlterTableAction($newResource, $upColumns);
+			$this->actions['down'][] = $this->compileAlterTableAction($newResource, $downColumns);
 		}
 	}
 
