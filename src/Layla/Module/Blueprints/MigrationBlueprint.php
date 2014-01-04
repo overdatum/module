@@ -20,6 +20,10 @@ class MigrationBlueprint extends Blueprint {
 		$this->setupActions();
 	}
 
+	////////////////////////////////////////////////////////////////////
+	//////////////////////// PUBLIC INTERFACE //////////////////////////
+	////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Get the namespace
 	 *
@@ -139,29 +143,6 @@ class MigrationBlueprint extends Blueprint {
 	}
 
 	/**
-	 * Get the file name to the migration.
-	 *
-	 * @param  string  $name
-	 * @param  string  $path
-	 *
-	 * @return string
-	 */
-	protected function getFileName($name)
-	{
-		return $this->getDatePrefix().'_'.$name.'.php';
-	}
-
-	/**
-	 * Get the date prefix for the migration.
-	 *
-	 * @return string
-	 */
-	protected function getDatePrefix()
-	{
-		return date('Y_m_d_His');
-	}
-
-	/**
 	 * Get file the destination for the model
 	 *
 	 * @return string
@@ -172,34 +153,6 @@ class MigrationBlueprint extends Blueprint {
 		$fileName = $this->getFileName($this->getActionName());
 
 		return $this->compileDestination($path, null, $fileName);
-	}
-
-	protected function compileColumn($column)
-	{
-		$arguments = array();
-
-		if( ! is_null($column->name))
-		{
-			$arguments[] = "'".$column->name."'";
-		}
-
-		if( ! is_null($column->size))
-		{
-			$arguments[] = $column->size;
-		}
-
-		if( ! is_null($column->precision))
-		{
-			$arguments[] = $column->precision;
-		}
-
-		return '$table->'.$column->type.'('.implode(', ', $arguments).')'.
-			(empty($column->default) ? '' : "->default('".$column->default."')").";\n";
-	}
-
-	protected function compileDropColumn($column)
-	{
-		return "\$table->dropColumn('".$column->name."');\n";
 	}
 
 	public function getPreviousIdOfColumnByResource($resource, $name)
@@ -244,13 +197,24 @@ class MigrationBlueprint extends Blueprint {
 					break;
 
 				case 'morphto':
-					$name = strtolower($relation->name);
+					$name = strtolower($relation->name.'_id');
 					$previousVersionId = $this->getPreviousIdOfColumnByResource($resource, $name);
 					$columns[$name] = new Column(array(
 						'relationtype' => $relation->type,
 						'previous_version_id' => $previousVersionId,
 						'name' => $name,
-						'type' => 'morphs',
+						'type' => 'string',
+						'size' => null,
+						'default' => null
+					));
+
+					$name = strtolower($relation->name).'_type';
+					$previousVersionId = $this->getPreviousIdOfColumnByResource($resource, $name);
+					$columns[$name] = new Column(array(
+						'relationtype' => $relation->type,
+						'previous_version_id' => $previousVersionId,
+						'name' => $name,
+						'type' => 'integer',
 						'size' => null,
 						'default' => null
 					));
@@ -355,6 +319,10 @@ class MigrationBlueprint extends Blueprint {
 	{
 		return "\$table->renameColumn('".$oldColumn."', '".$newColumn."');\n";
 	}
+
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////// INTERNALS //////////////////////////////
+	////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Create the create table action
@@ -512,6 +480,57 @@ class MigrationBlueprint extends Blueprint {
 			$this->actions['up'][] = $this->compileAlterTableAction($newResource, $upColumns);
 			$this->actions['down'][] = $this->compileAlterTableAction($newResource, $downColumns);
 		}
+	}
+
+	/**
+	 * Get the file name to the migration.
+	 *
+	 * @param  string  $name
+	 * @param  string  $path
+	 *
+	 * @return string
+	 */
+	protected function getFileName($name)
+	{
+		return $this->getDatePrefix().'_'.$name.'.php';
+	}
+
+	/**
+	 * Get the date prefix for the migration.
+	 *
+	 * @return string
+	 */
+	protected function getDatePrefix()
+	{
+		return date('Y_m_d_His');
+	}
+
+	protected function compileColumn($column)
+	{
+		$arguments = array();
+
+		if( ! is_null($column->name))
+		{
+			$arguments[] = "'".$column->name."'";
+		}
+
+		if( ! is_null($column->size))
+		{
+			$arguments[] = $column->size;
+		}
+
+		if( ! is_null($column->precision))
+		{
+			$arguments[] = $column->precision;
+		}
+
+		return '$table->'.$column->type.'('.implode(', ', $arguments).')'.
+			(empty($column->default) ? '' : "->default('".$column->default."')").";\n";
+	}
+
+	protected function compileDropColumn($column)
+	{
+		return "\$table->dropColumn('".$column->name."');\n";
 	}
 
 }
