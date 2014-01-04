@@ -12,3 +12,8 @@ function eval_blade($file, $data)
 
 	return ob_get_clean();
 }
+
+function layla_module_stubs_path()
+{
+	return __DIR__.'/stubs/';
+}
