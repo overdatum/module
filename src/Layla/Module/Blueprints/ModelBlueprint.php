@@ -9,7 +9,7 @@ class ModelBlueprint extends Blueprint {
 	 */
 	public function getNamespace()
 	{
-		return $this->compileNamespace($this->resource->namespace);
+		return $this->compileNamespace($this->resource->getNamespaceFor('model'));
 	}
 
 	/**
@@ -21,7 +21,7 @@ class ModelBlueprint extends Blueprint {
 	{
 		$fillableColumns = $this->resource->columns->filter(function($item)
 		{
-			return $item->fillable;
+			return $item->fillable && $item->name;
 		});
 
 		$fillable = $fillableColumns
@@ -101,10 +101,15 @@ class ModelBlueprint extends Blueprint {
 		foreach($relations as $relation)
 		{
 			$other = $relation->other;
-
 			$name = $relation->name;
-			$otherClass = $other->getNamespaceFor('model').'\\'.$other->name;
-			$stub = __DIR__.'/../../../stubs/model/'.strtolower($relation->type).'.stub';
+
+			$otherClass = null;
+			if( ! is_null($other))
+			{
+				$otherClass = $other->getNamespaceFor('model').'\\'.$other->name;
+			}
+
+			$stub = layla_module_stubs_path().'model/'.strtolower($relation->type).'.stub';
 			$data = compact('name', 'otherClass');
 
 			$content = eval_blade($stub, $data);
