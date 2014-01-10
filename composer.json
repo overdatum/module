@@ -10,7 +10,8 @@
     "require": {
         "php": ">=5.3.0",
         "illuminate/support": "~4",
-        "vespakoen/epi": "2.0.*"
+        "vespakoen/epi": "~2",
+        "vespakoen/menu": "~2"
     },
     "autoload": {
         "classmap": [
