@@ -61,7 +61,7 @@ class Generator {
 
 		$data = array_merge($data, compact('blueprint', 'destination'));
 
-		return eval_blade(layla_module_stubs_path().$this->stub, $data);
+		return '<?php'.eval_blade(layla_module_stubs_path().$this->stub, $data);
 	}
 
 }
