@@ -1,4 +1,4 @@
-<?php{{ $blueprint->getNamespace() }}
+{{ $blueprint->getNamespace() }}
 
 @if($blueprint->hasUses())
 {{ $blueprint->getUses() }}
