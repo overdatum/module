@@ -28,10 +28,25 @@ return array(
 		'path' => array(
 			'controllers' => 'controllers',
 			'resource_controllers' => 'controllers/api',
-			'models' => 'models',
+			'models' => null,
 			'migrations' => 'migrations',
 			'seeds' => 'seeds',
-			'validators' => 'validators',
+			'validators' => null,
+		),
+
+		'filenames' => array(
+			'controller' => function($resource)
+			{
+				return $resource->plural_name.'Controller.php';
+			},
+			'resource_controller' => function($resource)
+			{
+				return $resource->plural_name.'Controller.php';
+			},
+			'model' => function($resource)
+			{
+				return $resource->name.'.php';
+			}
 		)
 
 	)
