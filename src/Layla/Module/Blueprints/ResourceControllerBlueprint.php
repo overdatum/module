@@ -303,11 +303,7 @@ class ResourceControllerBlueprint extends ControllerBlueprint {
 	 */
 	public function getDestination()
 	{
-		$path = $this->resource->resource_controllers_path;
-		$namespace = $this->resource->resource_controller_namespace;
-		$fileName = $this->resource->plural_name.'Controller.php';
-
-		return $this->compileDestination($path, $namespace, $fileName);
+		return $this->resource->resource_controller_destination;
 	}
 
 }

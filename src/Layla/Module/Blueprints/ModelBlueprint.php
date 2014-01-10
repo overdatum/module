@@ -127,11 +127,7 @@ class ModelBlueprint extends Blueprint {
 	 */
 	public function getDestination()
 	{
-		$path = $this->resource->models_path;
-		$namespace = $this->resource->model_namespace;
-		$fileName = $this->resource->name.'.php';
-
-		return $this->compileDestination($path, $namespace, $fileName);
+		return $this->resource->model_destination;
 	}
 
 }

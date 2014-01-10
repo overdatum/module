@@ -52,7 +52,7 @@ class MigrationBlueprint extends Blueprint {
 	}
 
 	/**
-	 * Checks if a base model is defined
+	 * Checks if a base migration is defined
 	 *
 	 * @return string
 	 */
@@ -62,7 +62,7 @@ class MigrationBlueprint extends Blueprint {
 	}
 
 	/**
-	 * Get the base model
+	 * Get the base migration
 	 *
 	 * @return string
 	 */
@@ -72,7 +72,7 @@ class MigrationBlueprint extends Blueprint {
 	}
 
 	/**
-	 * Get the classname of the base model
+	 * Get the classname of the base migration
 	 *
 	 * @return string
 	 */
@@ -104,7 +104,7 @@ class MigrationBlueprint extends Blueprint {
 	}
 
 	/**
-	 * Get the model's name
+	 * Get the migration's name
 	 *
 	 * @return string
 	 */
@@ -143,16 +143,15 @@ class MigrationBlueprint extends Blueprint {
 	}
 
 	/**
-	 * Get file the destination for the model
+	 * Get file the destination for the migration
 	 *
 	 * @return string
 	 */
 	public function getDestination()
 	{
-		$path = $this->resource->migrations_path;
-		$fileName = $this->getFileName($this->getActionName());
+		$filename = $this->getFileName($this->getActionName());
 
-		return $this->compileDestination($path, null, $fileName);
+		return $this->resource->getDestinationFor('migration', $filename);
 	}
 
 	public function getPreviousIdOfColumnByResource($resource, $name)

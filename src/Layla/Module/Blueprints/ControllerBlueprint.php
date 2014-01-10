@@ -59,11 +59,7 @@ class ControllerBlueprint extends Blueprint {
 	 */
 	public function getDestination()
 	{
-		$path = $this->resource->controllers_path;
-		$namespace = $this->resource->controller_namespace;
-		$fileName = $this->resource->plural_name.'Controller.php';
-
-		return $this->compileDestination($path, $namespace, $fileName);
+		return $this->resource->controller_destination;
 	}
 
 }
