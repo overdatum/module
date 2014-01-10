@@ -82,13 +82,11 @@ class Module extends Base {
 
 	public function up()
 	{
-		$modules = Module::forUp()
+		$resources = Resource::forUp()
 			->get();
 
-		foreach($modules as $module)
+		foreach($resources as $resource)
 		{
-			foreach ($module->resources as $resource)
-			{
 				$blueprint = new ControllerBlueprint($resource);
 				$generator = new ControllerGenerator($blueprint);
 				$generator->generate();
@@ -101,10 +99,9 @@ class Module extends Base {
 				$generator = new ModelGenerator($blueprint);
 				$generator->generate();
 
-				$blueprint = new MigrationBlueprint($resource, true);
+				$blueprint = new MigrationBlueprint($resource);
 				$generator = new MigrationGenerator($blueprint);
 				$generator->generate();
-			}
 		}
 	}
 
