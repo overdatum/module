@@ -1,0 +1,340 @@
+<form class="form-horizontal" role="form">
+	<div class="panel-group" id="accordion">
+		<!-- General information -->
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapseGeneral">
+						General information
+					</a>
+				</h4>
+			</div>
+			<div id="collapseGeneral" class="panel-collapse collapse in">
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Based on</label>
+						<div class="col-sm-9">
+							<select name="based_on" class="form-control">
+								<option value="">Select a resource to autofill</option>
+								{{#each resource in resources}}
+								<option value="{{ resource.id }}">{{ resource.name }} ({{ resource.module.vendor }}/{{ resource.module.name }})</option>
+								{{/each}}
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Package</label>
+						<div class="col-sm-9">
+							<select class="form-control">
+								{{#each module in modules}}
+								<option value="{{ module.id }}">{{ module.vendor }}/{{ module.name }}</option>
+								{{/each}}
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Name</label>
+						<div class="col-sm-9">
+							<input type="text" name="name" class="form-control" placeholder="Name">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Plural name</label>
+						<div class="col-sm-9">
+							<input type="text" name="plural_name" class="form-control" placeholder="Plural name">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+
+		<!-- Relations -->
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapseRelations">
+						Relations
+					</a>
+				</h4>
+			</div>
+			<div id="collapseRelations" class="panel-collapse collapse">
+				<div class="panel-body">
+				</div>
+			</div>
+		</div>
+		<br>
+
+		<!-- Columns -->
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapseColumns">
+						Columns
+					</a>
+				</h4>
+			</div>
+			<div id="collapseColumns" class="panel-collapse collapse">
+				<div class="panel-body">
+				</div>
+			</div>
+		</div>
+		<br>
+
+		<!-- Controller -->
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+						<input type="checkbox" name="create_controller" value="1"> Create controller?
+					</a>
+				</h4>
+			</div>
+			<div id="collapseOne" class="panel-collapse collapse">
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Base Controller</label>
+						<div class="col-sm-9">
+							<input type="text" name="controllers_base" class="form-control" placeholder="Base Controller" value="{{ config.module.default.base.controllers }}">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Controller Namespace</label>
+						<div class="col-sm-9">
+							<input type="text" name="controller_namespace" class="form-control" placeholder="Controller Namespace" value="{{ config.module.default.namespace.controller }}">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Controller Path</label>
+						<div class="col-sm-9">
+							<input type="text" name="controllers_path" class="form-control" placeholder="Controller Path" value="{{ config.module.default.path.controllers }}">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+
+		<!-- Resource Controller -->
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+						<input type="checkbox" name="create_resource_controller" value="1"> Create resource controller?
+					</a>
+				</h4>
+			</div>
+			<div id="collapseTwo" class="panel-collapse collapse">
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Base Resource Controller</label>
+						<div class="col-sm-9">
+							<input type="text" name="resource_controllers_base" class="form-control" placeholder="Base Resource Controller" value="{{ config.module.default.base.resource_controllers }}">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Resource Controller Namespace</label>
+						<div class="col-sm-9">
+							<input type="text" name="resource_controller_namespace" class="form-control" placeholder="Resource Controller Namespace" value="{{ config.module.default.namespace.resource_controller }}">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Resource Controller Path</label>
+						<div class="col-sm-9">
+							<input type="text" name="resource_controllers_path" class="form-control" placeholder="Resource Controller Path" value="{{ config.module.default.path.resource_controllers }}">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+
+		<!-- Model -->
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+						<input type="checkbox" name="create_model" value="1"> Create model?
+					</a>
+				</h4>
+			</div>
+			<div id="collapseThree" class="panel-collapse collapse">
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Base Model</label>
+						<div class="col-sm-9">
+							<input type="text" name="models_base" class="form-control" placeholder="Base Model" value="{{ config.module.default.base.models }}">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Model Namespace</label>
+						<div class="col-sm-9">
+							<input type="text" name="model_namespace" class="form-control" placeholder="Model Namespace" value="{{ config.module.default.namespace.model }}">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Model Path</label>
+						<div class="col-sm-9">
+							<input type="text" name="models_path" class="form-control" placeholder="Model Path" value="{{ config.module.default.path.models }}">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+
+		<!-- Migration -->
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+						<input type="checkbox" name="create_migration" value="1"> Create migration?
+					</a>
+				</h4>
+			</div>
+			<div id="collapseFour" class="panel-collapse collapse">
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Base Migration</label>
+						<div class="col-sm-9">
+							<input type="text" name="migrations_base" class="form-control" placeholder="Base Migration" value="{{ config.module.default.base.migrations }}">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Migration Namespace</label>
+						<div class="col-sm-9">
+							<input type="text" name="migration_namespace" class="form-control" placeholder="Migration Namespace" value="{{ config.module.default.namespace.migration }}">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Migrations Path</label>
+						<div class="col-sm-9">
+							<input type="text" name="migrations_path" class="form-control" placeholder="Migrations Path" value="{{ config.module.default.path.migrations }}">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+
+		<!-- Seed -->
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+						<input type="checkbox" name="create_seed" value="1"> Create seed?
+					</a>
+				</h4>
+			</div>
+			<div id="collapseFive" class="panel-collapse collapse">
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Base Seed</label>
+						<div class="col-sm-9">
+							<input type="text" name="seeds_base" class="form-control" placeholder="Base Seed" value="{{ config.module.default.base.seeds }}">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Seed Namespace</label>
+						<div class="col-sm-9">
+							<input type="text" name="seed_namespace" class="form-control" placeholder="Seed Namespace" value="{{ config.module.default.namespace.seed }}">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Seed Path</label>
+						<div class="col-sm-9">
+							<input type="text" name="seeds_path" class="form-control" placeholder="Seed Path" value="{{ config.module.default.path.seeds }}">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+
+		<!-- Validator -->
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapseSix">
+						<input type="checkbox" name="create_validator" value="1"> Create validator?
+					</a>
+				</h4>
+			</div>
+			<div id="collapseSix" class="panel-collapse collapse">
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Base Validator</label>
+						<div class="col-sm-9">
+							<input type="text" name="validators_base" class="form-control" placeholder="Base Validator" value="{{ config.module.default.base.validators }}">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Validator Namespace</label>
+						<div class="col-sm-9">
+							<input type="text" name="validator_namespace" class="form-control" placeholder="Validator Namespace" value="{{ config.module.default.namespace.validator }}">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Validator Path</label>
+						<div class="col-sm-9">
+							<input type="text" name="validators_path" class="form-control" placeholder="Validator Path" value="{{ config.module.default.path.validators }}">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+
+	<div class="form-group">
+		<div class="col-sm-12">
+			<button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-ok"></i> Create resource</button>
+		</div>
+	</div>
+</form>
+
+<script>
+// auto pluralize name
+$('input[name="name"]').keyup(function() {
+	var $pluralNameEl = $('input[name="plural_name"]');
+	$pluralNameEl.val($(this).val() + 's');
+});
+
+function baseOnResource(resource)
+{
+	$('input').each(function()
+	{
+		var value = resource[$(this).attr('name')];
+		if(value)
+		{
+			$(this).val(value)
+		}
+		console.log();
+	});
+}
+
+$('select[name="based_on"]').change(function() {
+	var id = $(this).val();
+	for(var i in resources)
+	{
+		var resource = resources[i];
+		if(resource.id == id)
+		{
+			baseOnResource(resource);
+		}
+	}
+});
+
+</script>

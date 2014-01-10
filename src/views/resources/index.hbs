@@ -1,0 +1,84 @@
+<div class="page-header">
+  <h1>Resources</h1>
+</div>
+<div class="table-responsive">
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr class="active">
+        <th>name Name</th>
+        <th>module.vendor module.name Module</th>
+        <th>Details</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each resource in model}}
+      <tr>
+        <td><h4><b>{{ resource.name }}</b></h4></td>
+        <td>{{ resource.module.vendor }}/{{ resource.module.name }}</td>
+        <td>
+          <small>
+            <dl class="dl-horizontal">
+              <dt>Plural Name</dt>
+              <dd>{{ resource.plural_name }}</dd>
+            </dl>
+          </small>
+
+          <small>
+            <dl class="dl-horizontal">
+              <dt>Base Controller</dt>
+              <dd>{{ resource.controllers_base }}</dd>
+              <dt>Base Resource Controller</dt>
+              <dd>{{ resource.resource_controllers_base }}</dd>
+              <dt>Base Model</dt>
+              <dd>{{ resource.models_base }}</dd>
+              <dt>Base Migration</dt>
+              <dd>{{ resource.migrations_base }}</dd>
+              <dt>Base Seed</dt>
+              <dd>{{ resource.seeds_base }}</dd>
+              <dt>Base Validator</dt>
+              <dd>{{ resource.validator_base }}</dd>
+            </dl>
+          </small>
+
+          <small>
+            <dl class="dl-horizontal">
+              <dt>Controller Namespace</dt>
+              <dd>{{ resource.controller_namespace }}</dd>
+              <dt>Resource Namespace Controller</dt>
+              <dd>{{ resource.resource_controller_namespace }}</dd>
+              <dt>Model Namespace</dt>
+              <dd>{{ resource.model_namespace }}</dd>
+              <dt>Seed Namespace</dt>
+              <dd>{{ resource.seed_namespace }}</dd>
+              <dt>Validator Namespace</dt>
+              <dd>{{ resource.validator_namespace }}</dd>
+            </dl>
+          </small>
+
+          <small>
+            <dl class="dl-horizontal">
+              <dt>Controller Path</dt>
+              <dd>{{ resource.controllers_path }}</dd>
+              <dt>Resource Path Controller</dt>
+              <dd>{{ resource.resource_controllers_path }}</dd>
+              <dt>Model Path</dt>
+              <dd>{{ resource.models_path }}</dd>
+              <dt>Migration Path</dt>
+              <dd>{{ resource.migrations_path }}</dd>
+              <dt>Seed Path</dt>
+              <dd>{{ resource.seeds_path }}</dd>
+              <dt>Validator Path</dt>
+              <dd>{{ resource.validators_path }}</dd>
+            </dl>
+          </small>
+        </td>
+        <td style="text-align: right">
+          {{#linkTo "resources.edit" resource class="btn btn-primary"}}<i class="glyphicon glyphicon-edit"></i> Edit{{/linkTo}}
+          {{#linkTo "resources.destroy" resource class="btn btn-danger"}}<i class="glyphicon glyphicon-trash"></i> Delete{{/linkTo}}
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

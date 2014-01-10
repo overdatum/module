@@ -1,0 +1,26 @@
+<nav class="navbar navbar-default" role="navigation">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#module-navbar">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="#">Layla Module</a>
+  </div>
+
+  <div class="collapse navbar-collapse" id="module-navbar">
+    <ul class="nav navbar-nav">
+      {{#linkTo "modules" tagName="li" href=false}}<a href="packages">Packages</a>{{/linkTo}}
+      {{#linkTo "resources" tagName="li" href=false}}<a href="resources">Resources</a>{{/linkTo}}
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      {{outlet}}
+    </div>
+  </div>
+</div>
