@@ -54,6 +54,12 @@ class Resource extends Base {
 		'update_rules'
 	);
 
+	protected $appends = array(
+		'controller_destination',
+		'resource_controller_destination',
+		'model_destination',
+	);
+
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////// RELATIONS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -109,6 +115,29 @@ class Resource extends Base {
 	}
 
 	////////////////////////////////////////////////////////////////////
+	////////////////////////////// SCOPES //////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	public function scopeForUp($query)
+	{
+		return $query->with(array(
+			'previous',
+			'columns' => function($query)
+			{
+				$query
+					->select('columns.*')
+					->join('columns as older_columns', 'columns.previous_version_id', '=', 'older_columns.id')
+					->where('columns.id', '>', 'older_columns.id');
+			},
+			'columns.previous',
+			'forms.tabs.fields',
+			'forms.fields',
+			'relations.other',
+			'relations.parentResources.relations.other',
+		));
+	}
+
+	////////////////////////////////////////////////////////////////////
 	//////////////////////// PUBLIC INTERFACE //////////////////////////
 	////////////////////////////////////////////////////////////////////
 
@@ -123,6 +152,55 @@ class Resource extends Base {
 		return implode('\\', $segments);
 	}
 
+	public function getDestinationFor($type, $filename = null)
+	{
+		$resource = $this;
+		$module = $this->module;
+		$namespace = null;
+
+		switch($type)
+		{
+			case 'controller':
+				$namespace = $this->controller_namespace;
+				break;
+			case 'resource_controller':
+				$namespace = $this->resource_controller_namespace;
+				break;
+			case 'model':
+				$namespace = $this->model_namespace;
+				break;
+		}
+
+		$destinationSegments = array(
+			base_path(),
+			$module->package_path,
+			strtolower($module->vendor),
+			strtolower($module->name),
+			'src'
+		);
+
+		if($this->getOriginal($type.'s_path') || is_null($this->getAttribute($type.'_namespace')))
+		{
+			$destinationSegments[] = $this->{$type.'s_path'};
+		}
+		else
+		{
+			if($resource->include_package_namespace)
+			{
+				$destinationSegments = array_merge($destinationSegments, array(
+					$module->vendor,
+					$module->name
+				));
+			}
+
+			$destinationSegments[] = str_replace('\\', '/', $namespace);
+		}
+
+		$destinationSegments[] = $filename;
+
+		return implode('/', $destinationSegments);
+	}
+
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////// ACCESSORS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -135,6 +213,48 @@ class Resource extends Base {
 	public function getPluralNameAttribute()
 	{
 		return Str::plural($this->getAttribute('name'));
+	}
+
+	/**
+	 * Get the destination of the controller
+	 *
+	 * @return string
+	 */
+	public function getControllerDestinationAttribute()
+	{
+		$callback = Config::get('module::module.default.filenames.controller');
+
+		$filename = $callback($this);
+
+		return $this->getDestinationFor('controller', $filename);
+	}
+
+	/**
+	 * Get the destination of the controller
+	 *
+	 * @return string
+	 */
+	public function getResourceControllerDestinationAttribute()
+	{
+		$callback = Config::get('module::module.default.filenames.resource_controller');
+
+		$filename = $callback($this);
+
+		return $this->getDestinationFor('resource_controller', $filename);
+	}
+
+	/**
+	 * Get the destination of the model
+	 *
+	 * @return string
+	 */
+	public function getModelDestinationAttribute()
+	{
+		$callback = Config::get('module::module.default.filenames.model');
+
+		$filename = $callback($this);
+
+		return $this->getDestinationFor('model', $filename);
 	}
 
 	/**
