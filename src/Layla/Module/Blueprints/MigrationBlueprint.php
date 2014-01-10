@@ -378,24 +378,23 @@ class MigrationBlueprint extends Blueprint {
 	 */
 	protected function setupActions()
 	{
+		$newResource = $this->resource;
+
 		// check if we need to migrate to another resource, or create a new one
 		if( ! $this->isDirty)
 		{
 			$this->action = 'create';
 
-			$columns = $this->compileColumns($this->getColumnsForResource($this->resource));
+			$columns = $this->compileColumns($this->getColumnsForResource($newResource));
 
-			$columns = $this->compileCreateTableAction($this->resource, $columns);
-			$this->actions['up'][] = $this->compileAlterTableAction($newResource, $columns);
+			$this->actions['up'][] = $this->compileCreateTableAction($newResource, $columns);
 
-			$columns = $this->compileDropTableAction($this->resource);
-			$this->actions['down'][] = $this->compileAlterTableAction($newResource, $columns);
+			$this->actions['down'][] = $this->compileDropTableAction($newResource);
 		}
 		else
 		{
 			$this->action = 'alter';
 
-			$newResource = $this->resource;
 			$oldResource = $newResource->previous;
 
 			$upColumns = array();
