@@ -1,0 +1,62 @@
+{
+	"name": "page",
+	"vendor": "fuse",
+	"dependencies": {
+		//
+	},
+	"pieces": {
+		"laravel": {
+			"controllers.api.page": {
+				"type": "controller",
+				"action_set": "rest"
+			},
+			"controllers.frontend.page": {
+				"type": "controller",
+				"actions": [ "show" ]
+			},
+			"models.page": {
+				"type": "model",
+				"template": "fuse.page.model",
+				"relations": {
+					"type": {
+						"type": "belongs_to",
+						"model": "self::models.page.type"
+					}
+				}
+			},
+			"models.type": {
+				"type": "model",
+				"relations": {
+					"page": {
+						"type": "has_many",
+						"model": "self::models.page.type"
+					}
+				}
+			}
+		},
+		"ember": {
+			"controllers.page": {
+				"type": "controller",
+				"action_set": "crud"
+			},
+			"models.page": {
+				"type": "model",
+				"relations": {
+					"type": {
+						"type": "belongs_to",
+						"model": "self::models.page.type"
+					}
+				}
+			},
+			"models.type": {
+				"type": "model",
+				"relations": {
+					"page": {
+						"type": "has_many",
+						"model": "self::models.page.type"
+					}
+				}
+			}
+		}
+	}
+}
