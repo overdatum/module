@@ -1,0 +1,29 @@
+{
+    "name": "layla/module",
+    "description": "",
+    "authors": [
+        {
+            "name": "Koen Schmeets",
+            "email": "k.schmeets@gmail.com"
+        },
+        {
+            "name": "Roj Vroemen",
+            "email": "rojtjo@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/console": "dev-master",
+        "illuminate/container": "dev-master",
+        "illuminate/database": "dev-master"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Layla\\Module\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}

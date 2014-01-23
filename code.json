@@ -1,0 +1,149 @@
+{
+	"name": "Layla",
+	"vendor": "Module",
+	"require": {
+		"vespakoen/epi": "~2"
+	},
+	"resources": {
+		"Blueprints.Classblueprint": {
+
+		},
+		"Blueprints.MethodBag": {
+			"type": "collection",
+			"frameworks": ["laravel"]
+		},
+		"Blueprints.PropertyBlueprint": {
+			"type": "collection",
+			"frameworks": ["laravel"]
+		},
+		"Blueprints.ArgumentBlueprint": {
+			"type": "collection",
+			"frameworks": ["laravel"]
+		},
+		"Compilers"
+		"Models.Resource": {
+			"template": "fuse.page.model",
+			"relations": {
+				"type": {
+					"type": "belongs_to",
+					"model": "self::models.page.type"
+				}
+			},
+			"implementations": ["laravel", "emberjs"]
+		},
+		"models.type": {
+			"type": "model",
+			"relations": {
+				"page": {
+					"type": "has_many",
+					"model": "self::models.page.type"
+				}
+			}
+		},
+
+		"Models.Resource": {
+			"type": "model",
+			""
+		},
+		"Controllers.Api.ResourceController": {
+			"type": "vespakoen/epi::vespakoen.epi.controllers.epicontroller"
+		},
+		"Controllers.Api.PackagesController": {
+			"type": "vespakoen/epi::vespakoen.epi.controllers.epicontroller",
+			"model": ""
+		}
+	}
+}
+
+{
+	"name": "Layla",
+	"vendor": "Gui",
+	"require": {
+		"layla/module": "~0"
+	},
+	"resources": {
+		"Models.Resource": {
+			"type": "model",
+			"relations": [
+				{
+					"type": "has_one",
+					"other": "Models.Package",
+					"create_reverse": true // (no worky, just an idea, support for this would be awesome ;)
+				}
+			],
+			"columns": [
+				{
+					"name": "name",
+					"type": "DataType::STRING",
+					"max_length": 255,
+					"rules": [
+						"required",
+						"max:255"
+					]
+				},
+				{
+					"name": "base",
+					"type": "DataType::STRING",
+					"max_length": 255,
+					"rules": [
+						"max:255"
+					]
+				}
+			]
+		},
+		"Models.Package": {
+			"type": "model",
+			"relations": [
+				{
+					"type": "belongs_to",
+					"other": "Models.Resource"
+				}
+			]
+		},
+		"Controllers.Api.ResourceController": {
+			"type": "vespakoen/epi::vespakoen.epi.controllers.epicontroller"
+		},
+		"Controllers.Api.PackagesController": {
+			"type": "vespakoen/epi::vespakoen.epi.controllers.epicontroller",
+			"model": ""
+		}
+	}
+}
+
+{
+	"name": "page",
+	"vendor": "fuse",
+	"dependencies": {
+		//
+	},
+	"resources": {
+		"controllers.api.page": {
+			"type": "controller",
+			"action_set": "rest"
+		},
+		"controllers.frontend.page": {
+			"type": "controller",
+			"actions": [ "show" ]
+		},
+		"models.page": {
+			"type": "model",
+			"template": "fuse.page.model",
+			"relations": {
+				"type": {
+					"type": "belongs_to",
+					"model": "self::models.page.type"
+				}
+			},
+			"implementations": ["laravel", "emberjs"]
+		},
+		"models.type": {
+			"type": "model",
+			"relations": {
+				"page": {
+					"type": "has_many",
+					"model": "self::models.page.type"
+				}
+			}
+		}
+	}
+}
